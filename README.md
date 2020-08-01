@@ -25,3 +25,6 @@ AUTO_INCREMENT=1;
 
 > sudo docker start %ID%
 
+- ejecute SpringBoot Application:
+
+> $PATH_PROYECT  ./gradlew clean build bootRun
