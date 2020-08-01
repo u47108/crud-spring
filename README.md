@@ -21,5 +21,7 @@ DEFAULT CHARSET=utf8
 COLLATE=utf8_general_ci
 AUTO_INCREMENT=1;
 ```
+> sudo docker ps -a
 
+> sudo docker start %ID%
 
