@@ -1,7 +1,7 @@
 
 
 plugins {
-	id 'org.springframework.boot' version '3.3.0'
+	id 'org.springframework.boot' version '3.5.7'
 	id 'io.spring.dependency-management' version '1.1.5'
 	id 'eclipse'
     id 'jacoco'
@@ -49,8 +49,8 @@ repositories {
 }
 
 dependencies {
-	// Fix: Update to latest secure versions
-	implementation('org.apache.commons:commons-lang3:3.14.0') // Latest secure version
+	// Fix: Update to latest secure version (3.17.0 fixes uncontrolled recursion vulnerability)
+	implementation('org.apache.commons:commons-lang3:3.17.0') // Latest secure version
 	implementation('org.springframework.boot:spring-boot-starter')
     implementation('com.mysql:mysql-connector-j:8.3.0')
     implementation("org.springframework.boot:spring-boot-starter-security")
