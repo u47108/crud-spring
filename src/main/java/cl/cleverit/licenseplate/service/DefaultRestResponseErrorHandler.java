@@ -41,17 +41,26 @@ public class DefaultRestResponseErrorHandler extends DefaultResponseErrorHandler
         return exception;
     }
 
+    // Tamaño inicial del StringBuilder para reducir reasignaciones de memoria
+    private static final int INITIAL_BUFFER_SIZE = 1024;
+    
     private static String getErrorMessageFromInputStream(InputStream inputStream) throws IOException {
-      BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-        StringBuilder strBuilder = new StringBuilder();
-        String line;
+        // Usar try-with-resources para garantizar cierre automático y optimizar memoria
+        try (BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            
+            // Pre-dimensionar StringBuilder con tamaño estimado para reducir reasignaciones
+            StringBuilder strBuilder = new StringBuilder(INITIAL_BUFFER_SIZE);
+            String line;
 
-        while ((line = bufferedReader.readLine()) != null) {
-            strBuilder.append(line);
+            // Usar readLine() que es más eficiente que leer carácter por carácter
+            while ((line = bufferedReader.readLine()) != null) {
+                strBuilder.append(line);
+                // No agregar newline ya que readLine() lo elimina
+            }
+
+            return strBuilder.toString();
         }
-
-        bufferedReader.close();
-        return strBuilder.toString();
     }
     
     private void throwException(ExceptionDTO exception) {

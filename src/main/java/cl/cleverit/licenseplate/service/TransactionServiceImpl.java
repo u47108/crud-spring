@@ -52,13 +52,20 @@ public class TransactionServiceImpl implements TransactionService {
           License[].class);
       if (responseEntity != null && responseEntity.getStatusCode() == HttpStatus.OK) {
         rs = responseEntity.getBody();
-        List ls = repository.saveAll(Transform.converToEnttity(rs));
-        if (!ls.isEmpty()) {
-          respuesta.setCode(HttpStatus.CREATED.value());
-          respuesta.setMessage(HttpStatus.CREATED.name());
+        if (rs != null && rs.length > 0) {
+          List<cl.cleverit.licenseplate.entity.Movil> savedEntities = 
+              repository.saveAll(Transform.converToEnttity(rs));
+          if (!savedEntities.isEmpty()) {
+            respuesta.setCode(HttpStatus.CREATED.value());
+            respuesta.setMessage(HttpStatus.CREATED.name());
+          } else {
+            respuesta.setCode(HttpStatus.CONFLICT.value());
+            respuesta.setMessage(HttpStatus.CONFLICT.name());
+          }
         } else {
-          respuesta.setCode(HttpStatus.CONFLICT.value());
-          respuesta.setMessage(HttpStatus.CONFLICT.name());
+          log.warn("No data received from external API");
+          respuesta.setCode(HttpStatus.NO_CONTENT.value());
+          respuesta.setMessage("No data to save");
         }
       }
 
